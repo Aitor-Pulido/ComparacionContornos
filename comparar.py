@@ -47,41 +47,70 @@ mask1 = cv2.inRange(im, (0, 0, 0), (10, 10,10))
 cv2.imwrite("Image3.jpg", mask1)
 
 
-# Para invertir el color
-im = cv2.imread("C:\ProyectOCR\Data\letras.jpg")
-invertida = cv2.bitwise_not(im)
-cv2.imwrite("letrasMalas.jpg", invertida)
+color = "BLANCO"
 
-image = Image.open("letrasMalas.jpg")
-image.thumbnail((400, 400))
-image.save('letrasProg.jpg')
+if color == "BLANCO" or color == "GRIS SIERRA":
+    # Para invertir el color
+    im = cv2.imread("C:\ProyectOCR\Data\letras.jpg")
+    invertida = cv2.bitwise_not(im)
+    cv2.imwrite("letrasComparar.jpg", invertida)
 
-image = Image.open("Image2.jpg")
-image.thumbnail((400, 400))
-image.save('letrasBuenas.jpg')
+    img = cv2.imread("letrasComparar.jpg", cv2.IMREAD_UNCHANGED)
+    resized = cv2.resize(img, (400,400))
+    cv2.imwrite('letrasProg.jpg', resized)
 
-image = Image.open("Image3.jpg")
-image.thumbnail((400, 400))
-image.save('letrasFalsas.jpg')
 
+    img = cv2.imread("Image2.jpg", cv2.IMREAD_UNCHANGED)
+    resized = cv2.resize(img, (400,400))
+    cv2.imwrite('letrasBuenas.jpg', resized)
+
+
+    img = cv2.imread("Image3.jpg", cv2.IMREAD_UNCHANGED)
+    resized = cv2.resize(img, (400,400))
+    cv2.imwrite('letrasFalsas.jpg', resized)
+'''
+    image = Image.open("letrasComparar.jpg")
+    image.thumbnail((400, 400))
+    image.save('letrasProg.jpg')
+
+    image = Image.open("Image2.jpg")
+    image.thumbnail((400, 400))
+    image.save('letrasBuenas.jpg')
+
+    image = Image.open("Image3.jpg")
+    image.thumbnail((400, 400))
+    image.save('letrasFalsas.jpg')
+
+'''
+
+
+
+
+#Leer pixeles
 image = cv2.imread("letrasProg.jpg", 0)
-number_of_white_pix = np.sum(image >= 1)
+if np.sum(image) != None:
+    number_of_white_pix = np.sum(image >= 1)
 number_of_black_pix = np.sum(image == 0)
 print("Letras programa")
 print('Number of white pixels:', number_of_white_pix)
 print('Number of black pixels:', number_of_black_pix)
+number_of_white_pix = 0
 
 
 image = cv2.imread("letrasBuenas.jpg", 0)
-number_of_white_pix = np.sum(image >= 1)
+if np.sum(image) != None:
+    number_of_white_pix = np.sum(image >= 1)
+
 number_of_black_pix = np.sum(image == 0)
 print("Letras de verdad")
 print('Number of white pixels:', number_of_white_pix)
 print('Number of black pixels:', number_of_black_pix)
+number_of_white_pix = 0
 
 
-image = cv2.imread("letrasBuenas.jpg", 0)
-number_of_white_pix = np.sum(image >= 1)
+image = cv2.imread("letrasFalsas.jpg", 0)
+if np.sum(image) != None:
+    number_of_white_pix = np.sum(image >= 1)
 number_of_black_pix = np.sum(image == 0)
 print("Letras falsas")
 print('Number of white pixels:', number_of_white_pix)
